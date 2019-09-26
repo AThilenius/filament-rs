@@ -1,0 +1,27 @@
+bin
+cpp/lib
+cpp/include
+*.tgz
+book/book
+target
+*.log
+
+# Backup files
+.DS_Store
+thumbs.db
+*~
+*.rs.bk
+*.swp
+
+# IDE / Editor files
+*.iml
+.idea
+.vscode/c_cpp_properties.json
+
+
+#Added by cargo
+#
+#already existing elements are commented out
+
+/target
+**/*.rs.bk

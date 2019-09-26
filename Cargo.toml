@@ -1,0 +1,16 @@
+[package]
+name = "filament"
+version = "0.1.0"
+authors = ["Alec Thilenius <alec@thilenius.com>"]
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+nalgebra = "0.18"
+
+[dev-dependencies]
+winit = "0.19"
+
+[build-dependencies]
+bindgen = "0.51"
+cc = "1.0"

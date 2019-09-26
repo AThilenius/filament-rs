@@ -1,0 +1,19 @@
+{
+  "cSpell.words": [
+    "bluegl",
+    "bluevk",
+    "filabridge",
+    "filaflat",
+    "hwnd",
+    "macos",
+    "nsview",
+    "opengl",
+    "rustc",
+    "smol",
+    "unmanaged",
+    "winit"
+  ],
+  "files.associations": {
+    "functional": "cpp"
+  }
+}
