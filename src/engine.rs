@@ -4,6 +4,14 @@ use crate::{
 };
 use std::rc::Rc;
 
+pub enum Backend {
+  Default = 0,
+  Opengl = 1,
+  Vulkan = 2,
+  Metal = 3,
+  Noop = 4,
+}
+
 /// A handle to a Filament engine that will free the engine when dropped (wrapped in an Rc).
 pub(crate) struct EngineHandle(pub *mut filament::Engine);
 
@@ -24,8 +32,8 @@ pub struct Engine {
 }
 
 impl Engine {
-  pub fn new() -> Self {
-    let f_engine = unsafe { filament::Engine_CreateEngine() };
+  pub fn new(backend: Backend) -> Self {
+    let f_engine = unsafe { filament::Engine_CreateEngine(backend as i32) };
     Self {
       handle_rc: Rc::new(EngineHandle(f_engine)),
     }

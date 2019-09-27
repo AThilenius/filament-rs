@@ -55,13 +55,13 @@ impl View {
     }
   }
 
-  // pub fn get_clear_color(&self) -> Matrix4<f32> {
-  //     let mut out = [0_f32; 16];
-  //     unsafe {
-  //         filament::View_GetClearColor(self.handle, out.as_mut_ptr());
-  //     }
-  //     Matrix4::from_column_slice(&out)
-  // }
+  pub fn get_clear_color(&self) -> [f32; 4] {
+    let mut out = [0_f32; 4];
+    unsafe {
+      filament::View_GetClearColor(self.handle, out.as_mut_ptr());
+    }
+    out
+  }
 
   pub fn set_clear_targets(&mut self, color: bool, depth: bool, stencil: bool) {
     unsafe {

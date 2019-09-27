@@ -21,10 +21,8 @@ impl Renderer {
     }
   }
 
-  pub fn begin_frame(&self, swap_chain: &SwapChain) {
-    unsafe {
-      filament::Renderer_BeginFrame(self.handle, swap_chain.handle);
-    }
+  pub fn begin_frame(&self, swap_chain: &SwapChain) -> bool {
+    unsafe { filament::Renderer_BeginFrame(self.handle, swap_chain.handle) }
   }
 
   pub fn end_frame(&self) {

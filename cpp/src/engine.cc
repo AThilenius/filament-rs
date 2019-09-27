@@ -4,7 +4,9 @@
 using namespace filament;
 using namespace utils;
 
-extern "C" Engine* Engine_CreateEngine() { return Engine::create(); }
+extern "C" Engine* Engine_CreateEngine(int backend) {
+  return Engine::create((Engine::Backend)backend);
+}
 
 extern "C" void Engine_DestroyEngine(Engine* engine) {
   Engine::destroy(&engine);

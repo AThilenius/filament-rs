@@ -44,9 +44,9 @@ fn link() {
 }
 
 #[cfg(target_os = "macos")]
-fn cc_build() {
+fn cc_build(source: Vec<&str>) {
   cc::Build::new()
-    .files(vec!["cpp/src/engine.cc"])
+    .files(source)
     .include("cpp/include")
     .cpp(true)
     .flag("-std=c++14")
@@ -55,9 +55,9 @@ fn cc_build() {
 }
 
 #[cfg(target_os = "windows")]
-fn cc_build() {
+fn cc_build(source: Vec<&str>) {
   cc::Build::new()
-    .files(vec!["cpp/src/engine.cc"])
+    .files(source)
     .include("cpp/include")
     .cpp(true)
     .static_crt(true)
@@ -80,8 +80,16 @@ fn generate_bindings() {
 }
 
 fn main() {
+  let source = vec![
+    "cpp/src/camera.cc",
+    "cpp/src/engine.cc",
+    "cpp/src/renderer.cc",
+    "cpp/src/scene.cc",
+    "cpp/src/view.cc",
+  ];
+
   link();
-  cc_build();
+  cc_build(source);
   generate_bindings();
 
   // Also re-run if any C++ source changes (useful for dev)
