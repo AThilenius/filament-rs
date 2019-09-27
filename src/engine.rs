@@ -11,7 +11,7 @@ impl Drop for EngineHandle {
     fn drop(&mut self) {
         println!("Shutting engine down");
         unsafe {
-            filament::Engine_nDestroyEngine(self.0);
+            filament::Engine_DestroyEngine(self.0);
         }
     }
 }
@@ -25,7 +25,7 @@ pub struct Engine {
 
 impl Engine {
     pub fn new() -> Self {
-        let f_engine = unsafe { filament::Engine_nCreateEngine() };
+        let f_engine = unsafe { filament::Engine_CreateEngine() };
         Self {
             handle_rc: Rc::new(EngineHandle(f_engine)),
         }

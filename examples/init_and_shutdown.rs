@@ -9,13 +9,13 @@ use filament::prelude::*;
 use winit::{Event, EventsLoop, Window, WindowBuilder, WindowEvent};
 
 #[cfg(target_os = "macos")]
-fn get_native_surface(window: &Window) -> *mut std::ffi::c_void {
+fn get_ative_surface(window: &Window) -> *mut std::ffi::c_void {
     use winit::os::macos::WindowExt;
     window.get_nsview()
 }
 
 #[cfg(target_os = "windows")]
-fn get_native_surface(window: &Window) -> *mut std::ffi::c_void {
+fn get_ative_surface(window: &Window) -> *mut std::ffi::c_void {
     use winit::os::windows::WindowExt;
     unsafe { window.get_hwnd() }
 }
@@ -27,7 +27,7 @@ fn main() {
     window.set_title("Window Example with Winit");
 
     // The native surface handle is OS dependant.
-    let window_handle = get_native_surface(&window);
+    let window_handle = get_ative_surface(&window);
 
     let mut engine = Engine::new();
     let _swap_chain = engine.create_swap_chain(window_handle);

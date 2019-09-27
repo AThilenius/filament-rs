@@ -1,6 +1,13 @@
 #ifndef TYPES
 #define TYPES
 
+#include <stdint.h>
+
+// Yayy C, so fucking stupid... (it doesn't have a bool type)
+/// <div rustbindgen hide></div>
+/// <div rustbindgen replaces="bool"></div>
+typedef int32_t bool_t;
+
 /// <div rustbindgen opaque></div>
 struct Engine;
 typedef struct Engine Engine;
