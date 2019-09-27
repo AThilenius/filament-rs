@@ -17,12 +17,11 @@ void View_SetClearColor(View* view, float linearR, float linearG, float linearB,
 
 void View_GetClearColor(View* view, float* out);
 
-void View_SetClearTargets(View* view, bool_t color, bool_t depth,
-                          bool_t stencil);
+void View_SetClearTargets(View* view, bool color, bool depth, bool stencil);
 
 void View_SetVisibleLayers(View* view, int32_t select, int32_t value);
 
-void View_SetShadowsEnabled(View* view, bool_t enabled);
+void View_SetShadowsEnabled(View* view, bool enabled);
 
 void View_SetRenderTarget(View* view, RenderTarget* renderTarget);
 
@@ -42,8 +41,8 @@ void View_SetDithering(View* view, int32_t dithering);
 
 int32_t View_GetDithering(View* view);
 
-void View_SetDynamicResolutionOptions(View* view, bool_t enabled,
-                                      bool_t homogeneousScaling,
+void View_SetDynamicResolutionOptions(View* view, bool enabled,
+                                      bool homogeneousScaling,
                                       float targetFrameTimeMilli,
                                       float headRoomRatio, float scaleRate,
                                       float minScale, float maxScale,
@@ -56,13 +55,13 @@ void View_SetDynamicLightingOptions(View* view, float zLightNear,
 
 void View_SetDepthPrepass(View* view, int32_t value);
 
-void View_SetPostProcessingEnabled(View* view, bool_t enabled);
+void View_SetPostProcessingEnabled(View* view, bool enabled);
 
-bool_t View_IsPostProcessingEnabled(View* view);
+bool View_IsPostProcessingEnabled(View* view);
 
-void View_SetFrontFaceWindingInverted(View* view, bool_t inverted);
+void View_SetFrontFaceWindingInverted(View* view, bool inverted);
 
-bool_t View_IsFrontFaceWindingInverted(View* view);
+bool View_IsFrontFaceWindingInverted(View* view);
 
 void View_SetAmbientOcclusion(View* view, int32_t ordinal);
 

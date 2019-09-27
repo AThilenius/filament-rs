@@ -3,7 +3,7 @@
 
 #include "opaque_types.h"
 
-bool_t Renderer_BeginFrame(Renderer* renderer, SwapChain* swapChain);
+bool Renderer_BeginFrame(Renderer* renderer, SwapChain* swapChain);
 void Renderer_EndFrame(Renderer* renderer);
 void Renderer_Render(Renderer* renderer, View* view);
 void Renderer_CopyFrame(Renderer* renderer, SwapChain* dstSwapChain,
