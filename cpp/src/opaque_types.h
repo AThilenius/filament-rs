@@ -81,4 +81,20 @@ typedef struct LightManager LightManager;
 struct RenderableManager;
 typedef struct RenderableManager RenderableManager;
 
+/// <div rustbindgen opaque></div>
+struct VertexBuffer;
+typedef struct VertexBuffer VertexBuffer;
+
+/// <div rustbindgen opaque></div>
+struct VertexBufferBuilder;
+typedef struct VertexBufferBuilder VertexBufferBuilder;
+
+/// <div rustbindgen opaque></div>
+struct IndexBuffer;
+typedef struct IndexBuffer IndexBuffer;
+
+/// <div rustbindgen opaque></div>
+struct IndexBufferBuilder;
+typedef struct IndexBufferBuilder IndexBufferBuilder;
+
 #endif // TYPES

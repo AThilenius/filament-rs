@@ -1,6 +1,6 @@
 use crate::{
   camera::Camera, misc_types::SwapChain, raw_bindings::*, renderer::Renderer, scene::Scene,
-  view::View,
+  vertex_buffer::VertexBufferBuilder, view::View, index_buffer::IndexBufferBuilder,
 };
 use std::rc::Rc;
 
@@ -61,5 +61,13 @@ impl Engine {
 
   pub fn create_camera(&mut self) -> Camera {
     Camera::new(self.clone())
+  }
+
+  pub fn create_vertex_buffer_builder(&mut self) -> VertexBufferBuilder {
+    VertexBufferBuilder::new(self.clone())
+  }
+
+  pub fn create_index_buffer_builder(&mut self) -> IndexBufferBuilder {
+    IndexBufferBuilder::new(self.clone())
   }
 }

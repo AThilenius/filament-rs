@@ -3,7 +3,9 @@ pub mod raw_bindings;
 
 mod camera;
 mod engine;
+mod index_buffer;
 mod misc_types;
 mod renderer;
 mod scene;
+mod vertex_buffer;
 mod view;
