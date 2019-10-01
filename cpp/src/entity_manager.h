@@ -3,10 +3,18 @@
 
 #include "opaque_types.h"
 
-uint32_t EntityManager_create();
+EntityManager* EntityManager_get();
 
-void EntityManager_destroy(Entity entity);
+uint32_t EntityManager_create(EntityManager* entity_manager);
 
-bool EntityManager_isAlive(Entity entity);
+void EntityManager_destroy(EntityManager* entity_manager, Entity entity);
+
+void EntityManager_create_n(EntityManager* entity_manager, uint32_t n,
+                            Entity* entities);
+
+void EntityManager_destroy_n(EntityManager* entity_manager, uint32_t n,
+                             Entity* entities);
+
+bool EntityManager_isAlive(EntityManager* entity_manager, Entity entity);
 
 #endif

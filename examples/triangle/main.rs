@@ -2,7 +2,7 @@ extern crate filament;
 extern crate winit;
 
 use filament::prelude::*;
-use nalgebra::{Matrix4, Perspective3, Vector2, Vector3};
+use nalgebra::{Unit, UnitQuaternion, Vector2, Vector3};
 use std::{
   thread::sleep,
   time::{Duration, Instant},
@@ -80,7 +80,7 @@ fn main() {
   let material = engine.create_material(MATERIAL_BYTES);
   let material_instance = material.create_instance();
 
-  let entity = EntityManager::create();
+  let entity = EntityManager::get().create();
   scene.add_entity(entity);
 
   RenderableManager::builder(1)
@@ -95,6 +95,7 @@ fn main() {
 
   let mut exit = false;
   let target_frame_time = Duration::from_secs(1) / 144;
+  let total_time = Instant::now();
 
   while !exit {
     let frame_timer = Instant::now();
@@ -109,6 +110,16 @@ fn main() {
       }
       _ => {}
     });
+
+    // Rotate the triangle
+    let elapsed_seconds = total_time.elapsed().as_millis() as f32 / 1000.0_f32;
+    let rotation = UnitQuaternion::from_axis_angle(
+      &Unit::new_normalize(Vector3::new(0.0, 0.0, 1.0)),
+      elapsed_seconds,
+    );
+    engine
+      .get_transform_manager()
+      .set_transform(entity, rotation.into());
 
     // Then try to begin another frame (returns false if we need to skip a frame).
     if renderer.begin_frame(&swap_chain) {

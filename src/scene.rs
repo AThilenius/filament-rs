@@ -1,4 +1,4 @@
-use crate::{engine::Engine, raw_bindings::*, misc_types::Entity};
+use crate::{engine::Engine, misc_types::Entity, raw_bindings::*};
 
 pub struct Scene {
   engine: Engine,
@@ -22,11 +22,15 @@ impl Scene {
   }
 
   pub fn add_entity(&mut self, entity: Entity) {
-    unsafe { filament::Scene_AddEntity(self.handle, entity); }
+    unsafe {
+      filament::Scene_AddEntity(self.handle, entity);
+    }
   }
 
   pub fn remove_entity(&mut self, entity: Entity) {
-    unsafe { filament::Scene_RemoveEntity(self.handle, entity); }
+    unsafe {
+      filament::Scene_RemoveEntity(self.handle, entity);
+    }
   }
 
   // void Scene_SetSkybox(Scene* scene, Skybox* skybox);

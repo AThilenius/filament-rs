@@ -3,6 +3,7 @@ pub mod raw_bindings;
 
 mod camera;
 mod engine;
+mod entity_manager;
 mod index_buffer;
 mod material;
 mod misc_types;

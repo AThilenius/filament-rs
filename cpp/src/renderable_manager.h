@@ -24,4 +24,16 @@ void RenderableManager_Builder_SetGeometry(RenderableManagerBuilder* builder,
 void RenderableManager_Builder_Build(RenderableManagerBuilder* builder,
                                      Engine* engine, Entity renderable);
 
+void RenderableManager_Builder_SetLayerMask(RenderableManagerBuilder* builder,
+                                            uint8_t select, uint8_t value);
+
+void RenderableManager_Builder_SetPriority(RenderableManagerBuilder* builder,
+                                           uint8_t priority);
+
+void RenderableManager_Builder_SetCastShadowns(
+    RenderableManagerBuilder* builder, bool cast_shadows);
+
+void RenderableManager_Builder_SetReceiveShadows(
+    RenderableManagerBuilder* builder, bool receive_shadows);
+
 #endif

@@ -89,6 +89,7 @@ fn main() {
     "cpp/src/renderable_manager.cc",
     "cpp/src/renderer.cc",
     "cpp/src/scene.cc",
+    "cpp/src/transform_manager.cc",
     "cpp/src/vertex_buffer.cc",
     "cpp/src/view.cc",
   ];

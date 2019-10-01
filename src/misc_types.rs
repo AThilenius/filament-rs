@@ -1,5 +1,5 @@
 use crate::{engine::Engine, raw_bindings::*};
-use nalgebra::Vector3;
+use nalgebra::{Matrix4, Vector3};
 
 pub type Entity = u32;
 
@@ -35,21 +35,22 @@ pub struct RenderTarget {
   pub(crate) handle: *mut filament::RenderTarget,
 }
 
-pub struct EntityManager;
-impl EntityManager {
-  pub fn create() -> Entity {
-    unsafe { filament::EntityManager_create() }
+pub struct TransformManager {
+  engine: Engine,
+}
+
+impl TransformManager {
+  pub fn new(engine: Engine) -> Self {
+    TransformManager { engine }
   }
 
-  pub fn destroy(entity: Entity) {
+  pub fn set_transform(&mut self, entity: Entity, transform: Matrix4<f32>) {
     unsafe {
-      filament::EntityManager_destroy(entity);
-    }
-  }
-
-  pub fn is_alive(entity: Entity) {
-    unsafe {
-      filament::EntityManager_isAlive(entity);
+      filament::TransformManager_SetTransform(
+        self.engine.handle(),
+        entity,
+        transform.as_ptr() as *mut f32,
+      );
     }
   }
 }

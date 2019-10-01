@@ -41,3 +41,27 @@ RenderableManager_Builder_Build(RenderableManager::Builder* builder,
   builder->build(*engine, renderable);
   delete builder;
 }
+
+extern "C" void
+RenderableManager_Builder_SetLayerMask(RenderableManager::Builder* builder,
+                                       uint8_t select, uint8_t value) {
+  builder->layerMask(select, value);
+}
+
+extern "C" void
+RenderableManager_Builder_SetPriority(RenderableManager::Builder* builder,
+                                      uint8_t priority) {
+  builder->priority(priority);
+}
+
+extern "C" void
+RenderableManager_Builder_SetCastShadowns(RenderableManager::Builder* builder,
+                                          bool cast_shadows) {
+  builder->castShadows(cast_shadows);
+}
+
+extern "C" void
+RenderableManager_Builder_SetReceiveShadows(RenderableManager::Builder* builder,
+                                            bool receive_shadows) {
+  builder->receiveShadows(receive_shadows);
+}

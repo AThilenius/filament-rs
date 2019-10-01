@@ -7,15 +7,18 @@
 // Actual FFI exports
 #include "camera.h"
 #include "engine.h"
+#include "entity_manager.h"
 #include "index_buffer.h"
 #include "renderer.h"
 #include "scene.h"
 #include "vertex_buffer.h"
 #include "view.h"
 
-// Incomplete
-#include "entity_manager.h"
-#include "material.h"
+// Mostly complete
 #include "renderable_manager.h"
+
+// Incomplete
+#include "material.h"
+#include "transform_manager.h"
 
 #endif
