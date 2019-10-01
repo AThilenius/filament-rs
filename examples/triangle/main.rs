@@ -2,7 +2,7 @@ extern crate filament;
 extern crate winit;
 
 use filament::prelude::*;
-use nalgebra::{Unit, UnitQuaternion, Vector2, Vector3};
+use nalgebra::{Matrix4, Vector2, Vector3};
 use std::{
   thread::sleep,
   time::{Duration, Instant},
@@ -50,8 +50,7 @@ fn main() {
 
   // Make the camera
   let mut camera = engine.create_camera();
-  // camera.set_projection_fov( 45.0, aspect, 0.1, 10000.0, Fov::Vertical,);
-  camera.set_projection(Projection::Ortho, -aspect, aspect, -1.0, 1.0, 0.0, 1.0);
+  camera.set_projection_fov(60.0, aspect, 0.1, 10000.0, Fov::Vertical);
 
   // Setup the view
   view.set_scene(&scene);
@@ -111,15 +110,17 @@ fn main() {
       _ => {}
     });
 
-    // Rotate the triangle
+    // Rotate the triangle and dolly the camera out.
     let elapsed_seconds = total_time.elapsed().as_millis() as f32 / 1000.0_f32;
-    let rotation = UnitQuaternion::from_axis_angle(
-      &Unit::new_normalize(Vector3::new(0.0, 0.0, 1.0)),
-      elapsed_seconds,
+    engine.get_transform_manager().set_transform(
+      entity,
+      Matrix4::new_rotation(Vector3::new(0.0, 0.0, elapsed_seconds)),
     );
-    engine
-      .get_transform_manager()
-      .set_transform(entity, rotation.into());
+    camera.set_model_matrix(Matrix4::new_translation(&Vector3::new(
+      0.0,
+      0.0,
+      1.0 + (elapsed_seconds / 5.0),
+    )));
 
     // Then try to begin another frame (returns false if we need to skip a frame).
     if renderer.begin_frame(&swap_chain) {
