@@ -16,5 +16,6 @@
 // Incomplete
 #include "entity_manager.h"
 #include "material.h"
+#include "renderable_manager.h"
 
 #endif

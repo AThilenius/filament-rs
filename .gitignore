@@ -1,6 +1,6 @@
-bin
-cpp/lib
-cpp/include
+/bin
+/cpp/lib
+/cpp/include
 *.tgz
 book/book
 target

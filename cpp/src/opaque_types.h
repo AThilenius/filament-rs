@@ -86,6 +86,10 @@ struct RenderableManager;
 typedef struct RenderableManager RenderableManager;
 
 /// <div rustbindgen opaque></div>
+struct RenderableManagerBuilder;
+typedef struct RenderableManagerBuilder RenderableManagerBuilder;
+
+/// <div rustbindgen opaque></div>
 struct VertexBuffer;
 typedef struct VertexBuffer VertexBuffer;
 

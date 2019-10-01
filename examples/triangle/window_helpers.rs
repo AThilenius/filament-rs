@@ -14,10 +14,9 @@ fn get_active_surface(window: &Window) -> *mut std::ffi::c_void {
   window.get_hwnd()
 }
 
-pub fn init_window(title: &str) -> (Window, EventsLoop, *mut std::ffi::c_void) {
+pub fn init_window() -> (Window, EventsLoop, *mut std::ffi::c_void) {
   let event_loop = EventsLoop::new();
   let window = WindowBuilder::new().build(&event_loop).unwrap();
-  window.set_title(title);
 
   // The native surface handle is OS dependant.
   let window_handle = get_active_surface(&window);

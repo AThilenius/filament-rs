@@ -3,7 +3,7 @@
 
 #include "opaque_types.h"
 
-Entity EntityManager_create();
+uint32_t EntityManager_create();
 
 void EntityManager_destroy(Entity entity);
 

@@ -6,6 +6,7 @@ mod engine;
 mod index_buffer;
 mod material;
 mod misc_types;
+mod renderable_manager;
 mod renderer;
 mod scene;
 mod vertex_buffer;

@@ -86,6 +86,7 @@ fn main() {
     "cpp/src/entity_manager.cc",
     "cpp/src/index_buffer.cc",
     "cpp/src/material.cc",
+    "cpp/src/renderable_manager.cc",
     "cpp/src/renderer.cc",
     "cpp/src/scene.cc",
     "cpp/src/vertex_buffer.cc",

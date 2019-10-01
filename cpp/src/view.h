@@ -9,8 +9,8 @@ void View_SetScene(View* view, Scene* scene);
 
 void View_SetCamera(View* view, Camera* camera);
 
-void View_SetViewport(View* view, int32_t left, int32_t bottom, int32_t width,
-                      int32_t height);
+void View_SetViewport(View* view, int32_t left, int32_t bottom, uint32_t width,
+                      uint32_t height);
 
 void View_SetClearColor(View* view, float linearR, float linearG, float linearB,
                         float linearA);

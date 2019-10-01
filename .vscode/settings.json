@@ -8,16 +8,21 @@
     "bluevk",
     "filabridge",
     "filaflat",
+    "hidpi",
     "hwnd",
     "macos",
     "nsview",
     "opengl",
+    "repr",
     "rustc",
     "smol",
     "unmanaged",
     "winit"
   ],
   "files.associations": {
-    "functional": "cpp"
+    "functional": "cpp",
+    "istream": "cpp",
+    "memory": "cpp",
+    "type_traits": "cpp"
   }
 }

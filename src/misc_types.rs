@@ -1,6 +1,13 @@
 use crate::{engine::Engine, raw_bindings::*};
+use nalgebra::Vector3;
 
 pub type Entity = u32;
+
+#[repr(C)]
+pub struct BoundingBox {
+  pub center: Vector3<f32>,
+  pub half_extent: Vector3<f32>,
+}
 
 pub struct SwapChain {
   engine: Engine,
@@ -35,10 +42,14 @@ impl EntityManager {
   }
 
   pub fn destroy(entity: Entity) {
-    unsafe { filament::EntityManager_destroy(entity); }
+    unsafe {
+      filament::EntityManager_destroy(entity);
+    }
   }
 
   pub fn is_alive(entity: Entity) {
-    unsafe { filament::EntityManager_isAlive(entity); }
+    unsafe {
+      filament::EntityManager_isAlive(entity);
+    }
   }
 }

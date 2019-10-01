@@ -66,7 +66,7 @@ impl IndexBuffer {
         self.handle,
         self.engine.handle(),
         data.as_ptr() as *mut std::ffi::c_void,
-        data.len() as u64,
+        (std::mem::size_of::<T>() * data.len()) as u64,
       );
     }
   }

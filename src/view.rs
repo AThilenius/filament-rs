@@ -43,7 +43,7 @@ impl View {
     }
   }
 
-  pub fn set_viewport(&mut self, left: i32, bottom: i32, width: i32, height: i32) {
+  pub fn set_viewport(&mut self, left: i32, bottom: i32, width: u32, height: u32) {
     unsafe {
       filament::View_SetViewport(self.handle, left, bottom, width, height);
     }
