@@ -20,6 +20,10 @@ typedef struct View View;
 struct Renderer;
 typedef struct Renderer Renderer;
 
+/// <div rustbindgen opaque></div>
+struct EntityManager;
+typedef struct EntityManager EntityManager;
+
 /// <div rustbindgen hide></div>
 /// <div rustbindgen replaces="Entity"></div>
 struct Entity;

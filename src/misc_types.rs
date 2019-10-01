@@ -1,5 +1,7 @@
 use crate::{engine::Engine, raw_bindings::*};
 
+pub type Entity = u32;
+
 pub struct SwapChain {
   engine: Engine,
   pub(crate) handle: *mut filament::SwapChain,
@@ -24,4 +26,19 @@ impl SwapChain {
 
 pub struct RenderTarget {
   pub(crate) handle: *mut filament::RenderTarget,
+}
+
+pub struct EntityManager;
+impl EntityManager {
+  pub fn create() -> Entity {
+    unsafe { filament::EntityManager_create() }
+  }
+
+  pub fn destroy(entity: Entity) {
+    unsafe { filament::EntityManager_destroy(entity); }
+  }
+
+  pub fn is_alive(entity: Entity) {
+    unsafe { filament::EntityManager_isAlive(entity); }
+  }
 }

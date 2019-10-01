@@ -1,6 +1,6 @@
 use crate::{
   camera::Camera, misc_types::SwapChain, raw_bindings::*, renderer::Renderer, scene::Scene,
-  vertex_buffer::VertexBufferBuilder, view::View, index_buffer::IndexBufferBuilder,
+  vertex_buffer::VertexBufferBuilder, view::View, index_buffer::IndexBufferBuilder, material::Material,
 };
 use std::rc::Rc;
 
@@ -69,5 +69,9 @@ impl Engine {
 
   pub fn create_index_buffer_builder(&mut self) -> IndexBufferBuilder {
     IndexBufferBuilder::new(self.clone())
+  }
+
+  pub fn create_material(&mut self, data: &[u8]) -> Material {
+    Material::new(self.clone(), data)
   }
 }

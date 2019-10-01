@@ -83,7 +83,9 @@ fn main() {
   let source = vec![
     "cpp/src/camera.cc",
     "cpp/src/engine.cc",
+    "cpp/src/entity_manager.cc",
     "cpp/src/index_buffer.cc",
+    "cpp/src/material.cc",
     "cpp/src/renderer.cc",
     "cpp/src/scene.cc",
     "cpp/src/vertex_buffer.cc",

@@ -1,4 +1,4 @@
-use crate::{engine::Engine, raw_bindings::*};
+use crate::{engine::Engine, raw_bindings::*, misc_types::Entity};
 
 pub struct Scene {
   engine: Engine,
@@ -20,4 +20,22 @@ impl Scene {
       engine,
     }
   }
+
+  pub fn add_entity(&mut self, entity: Entity) {
+    unsafe { filament::Scene_AddEntity(self.handle, entity); }
+  }
+
+  pub fn remove_entity(&mut self, entity: Entity) {
+    unsafe { filament::Scene_RemoveEntity(self.handle, entity); }
+  }
+
+  // void Scene_SetSkybox(Scene* scene, Skybox* skybox);
+
+  // void Scene_SetIndirectLight(Scene* scene, IndirectLight* indirectLight);
+
+  // void Scene_AddEntities(Scene* scene, Entity* entities, uint32_t entities_len);
+
+  // int32_t Scene_GetRenderableCount(Scene* scene);
+
+  // int32_t Scene_GetLightCount(Scene* scene);
 }

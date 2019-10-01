@@ -3,11 +3,16 @@ extern crate winit;
 
 use filament::prelude::*;
 use nalgebra::{Matrix4, Perspective3, Vector3};
-use std::time::{Duration, Instant};
+use std::{
+  thread::sleep,
+  time::{Duration, Instant},
+};
 use winit::{Event, WindowEvent};
 
 mod window_helpers;
 use window_helpers::init_window;
+
+const MATERIAL_BYTES: &'static [u8] = include_bytes!("../materials/bin/color_unlit.filamat");
 
 fn make_vertex_buffer(engine: &mut Engine) -> VertexBuffer {
   let mut vertex_buffer = engine
@@ -40,7 +45,8 @@ fn make_vertex_buffer(engine: &mut Engine) -> VertexBuffer {
 }
 
 fn make_index_buffer(engine: &mut Engine) -> IndexBuffer {
-  let mut index_buffer = engine.create_index_buffer_builder()
+  let mut index_buffer = engine
+    .create_index_buffer_builder()
     .index_count(6)
     .buffer_type(IndexType::Ushort)
     .build();
@@ -55,7 +61,7 @@ fn make_index_buffer(engine: &mut Engine) -> IndexBuffer {
 fn main() {
   let (mut window, mut event_loop, window_handle) = init_window("Quad Example");
 
-  let mut engine = Engine::new(Backend::Opengl);
+  let mut engine = Engine::new(Backend::Default);
   let swap_chain = engine.create_swap_chain(window_handle);
   let renderer = engine.create_renderer();
   let mut view = engine.create_view();
@@ -80,6 +86,12 @@ fn main() {
   let vertex_buffer = make_vertex_buffer(&mut engine);
   let index_buffer = make_index_buffer(&mut engine);
 
+  let material = engine.create_material(MATERIAL_BYTES);
+  let material_instance = material.create_instance();
+
+  let entity = EntityManager::create();
+  scene.add_entity(entity);
+
   let mut exit = false;
   let target_frame_time = Duration::from_secs(1) / 144;
 
@@ -98,18 +110,20 @@ fn main() {
     });
 
     // Then try to begin another frame (returns false if we need to skip a frame).
-    if !renderer.begin_frame(&swap_chain) {
-      continue;
+    if renderer.begin_frame(&swap_chain) {
+      renderer.render(&view);
+      renderer.end_frame();
     }
-    renderer.render(&view);
-    renderer.end_frame();
 
-    let title = format!("Quad Example - Last frame: {}ms", frame_timer.elapsed().as_micros());
+    let title = format!(
+      "Quad Example - Last frame: {:.2}ms",
+      (frame_timer.elapsed().as_micros() as f64) / 1000_f64
+    );
     window.set_title(&title);
 
     // Try to sleep long enough to hit the target frame time.
     if frame_timer.elapsed() < target_frame_time {
-      std::thread::sleep(target_frame_time - frame_timer.elapsed());
+      sleep(target_frame_time - frame_timer.elapsed());
     }
   }
 }

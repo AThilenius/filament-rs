@@ -13,18 +13,18 @@ extern "C" void Scene_SetIndirectLight(Scene* scene,
   scene->setIndirectLight(indirectLight);
 }
 
-extern "C" void Scene_AddEntity(Scene* scene, int entity) {
+extern "C" void Scene_AddEntity(Scene* scene, Entity entity) {
 
-  scene->addEntity((Entity&)entity);
+  scene->addEntity(entity);
 }
 
 extern "C" void Scene_AddEntities(Scene* scene, Entity* entities,
-                                  size_t entities_len) {
+                                  uint64_t entities_len) {
   scene->addEntities(entities, entities_len);
 }
 
-extern "C" void Scene_Remove(Scene* scene, int entity) {
-  scene->remove((Entity&)entity);
+extern "C" void Scene_RemoveEntity(Scene* scene, Entity entity) {
+  scene->remove(entity);
 }
 
 extern "C" int Scene_GetRenderableCount(Scene* scene) {

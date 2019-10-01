@@ -13,4 +13,8 @@
 #include "vertex_buffer.h"
 #include "view.h"
 
+// Incomplete
+#include "entity_manager.h"
+#include "material.h"
+
 #endif

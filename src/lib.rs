@@ -4,6 +4,7 @@ pub mod raw_bindings;
 mod camera;
 mod engine;
 mod index_buffer;
+mod material;
 mod misc_types;
 mod renderer;
 mod scene;
