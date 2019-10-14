@@ -197,7 +197,4 @@ fn main() {
   link(prebuilt_path.clone());
   cc_build(prebuilt_path.clone(), source);
   generate_bindings(prebuilt_path.clone());
-
-  // Also re-run if any C++ source changes (useful for dev)
-  println!("cargo:rerun-if-changed=cpp/src/**/*");
 }
