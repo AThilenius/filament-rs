@@ -46,6 +46,7 @@ impl IndexBufferBuilder {
   }
 }
 
+#[derive(Clone)]
 pub struct IndexBuffer {
   engine: Engine,
   pub(crate) handle: *mut filament::IndexBuffer,

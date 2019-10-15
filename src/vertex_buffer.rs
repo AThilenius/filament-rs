@@ -1,5 +1,6 @@
 use crate::{engine::Engine, raw_bindings::*};
 
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum VertexAttribute {
   Position = 0,
   Tangents = 1,
@@ -18,6 +19,7 @@ pub enum VertexAttribute {
   Custom7 = 15,
 }
 
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum AttributeType {
   Byte = 0,
   Byte2 = 1,
@@ -116,6 +118,7 @@ impl VertexBufferBuilder {
   }
 }
 
+#[derive(Clone)]
 pub struct VertexBuffer {
   engine: Engine,
   pub(crate) handle: *mut filament::VertexBuffer,
