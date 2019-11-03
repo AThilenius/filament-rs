@@ -36,14 +36,27 @@ Include a compiled Filament `Material` in the binary
 const MATERIAL_BYTES: &'static [u8] = include_bytes!("../materials/bin/color_unlit.filamat");
 ```
 
-Define a vertex type (assuming you want to interleave vertex data).
+Define a vertex type (assuming you want to interleave vertex data). This also
+defined everything Filament will need to use this struct directly as a for
+vertex data.
 
 ```rust
 // Must be defined `#[repr(C)]` for safe FFI to C.
 #[repr(C)]
 struct Vertex {
-  pub position: Vector2<f32>,
-  pub color: u32,
+    pub position: Vector2<f32>,
+    pub uv: Vector2<f32>,
+}
+
+// Impl `VertexDefinition` to provide Filament with all the info it needs to build `VertexBuffer`s from Vectors of this
+// struct.
+impl VertexDefinition for Vertex {
+    fn attribute_definitions() -> Vec<VertexAttributeDefinition> {
+        vec![
+            VertexAttributeDefinition::new(VertexAttribute::Position, AttributeType::Float2, false),
+            VertexAttributeDefinition::new(VertexAttribute::UV0, AttributeType::Float2, false),
+        ]
+    }
 }
 ```
 
@@ -68,32 +81,12 @@ view.set_clear_color(0.0, 0.0, 1.0, 1.0);
 view.set_clear_targets(true, true, false);
 ```
 
-Build a Vertex and Index buffer.
-
-**Note here that `vertices` and `indices` are NOT copied, the pointers must be
-valid until Filament has finished loading this data to the GPU. This API is
-likely to change soon, as it's fragile and gets into undefined behavior.**
+Build a Vertex and Index buffer. Note that this will copy both buffers into
+unmanaged memory, freeing the buffer once the copy-to-GPU is done.
 
 ```rust
 // Uses the interleaved vertex struct defined above.
-let mut vertex_buffer = engine
-  .create_vertex_buffer_builder()
-  .vertex_count(3)
-  .buffer_count(1)
-  .attribute(VertexAttribute::Position, 0, AttributeType::Float2, 0, 12)
-  .attribute(VertexAttribute::Color, 0, AttributeType::Ubyte4, 8, 12)
-  .normalized(VertexAttribute::Color, true)
-  .build();
-// Not copied, keep `vertices` around.
-vertex_buffer.set_buffer_at(0, &vertices);
-
-let mut index_buffer = engine
-  .create_index_buffer_builder()
-  .index_count(3)
-  .buffer_type(IndexType::Ushort)
-  .build();
-// Not copied, keep `indices` around.
-index_buffer.set_buffer(&indices);
+let (vertex_buffer, index_buffer) = Vertex::make(&mut engine, vertices, indices);
 ```
 
 Create a `Material` and `MaterialInstance` from the embedded bytes above.
@@ -113,23 +106,23 @@ let entity = EntityManager::get().create();
 scene.add_entity(entity);
 
 RenderableManager::builder(1)
-  .bounding_box(BoundingBox {
-    center: Vector3::new(-1., -1., -1.),
-    half_extent: Vector3::new(1., 1., 1.),
-  })
-  .culling(false)
-  .material(0, &material_instance)
-  .geometry(0, PrimitiveType::Triangles, &vertex_buffer, &index_buffer)
-  .build(&engine, entity);
+    .bounding_box(BoundingBox {
+        center: Vector3::new(-1., -1., -1.),
+        half_extent: Vector3::new(1., 1., 1.),
+    })
+    .culling(false)
+    .material(0, &material_instance)
+    .geometry(0, PrimitiveType::Triangles, &vertex_buffer, &index_buffer)
+    .build(&engine, entity);
 ```
 
 Entities can be transformed using the `TransformManager`.
 
 ```rust
 engine.get_transform_manager().set_transform(
-  entity,
-  // This is a standard nalgebra Matrix4<f32>.
-  Matrix4::new_rotation(Vector3::new(0.0, 0.0, 2.34)),
+    entity,
+    // This is a standard nalgebra Matrix4<f32>.
+    Matrix4::new_rotation(Vector3::new(0.0, 0.0, 2.34)),
 );
 ```
 
@@ -137,7 +130,7 @@ In the render loop, begin, draw and end the frame with
 
 ```rust
 if renderer.begin_frame(&swap_chain) {
-  renderer.render(&view);
-  renderer.end_frame();
+    renderer.render(&view);
+    renderer.end_frame();
 }
 ```
