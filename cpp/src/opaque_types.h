@@ -109,4 +109,12 @@ typedef struct IndexBuffer IndexBuffer;
 struct IndexBufferBuilder;
 typedef struct IndexBufferBuilder IndexBufferBuilder;
 
+/// <div rustbindgen opaque></div>
+struct TextureBuilder;
+typedef struct TextureBuilder TextureBuilder;
+
+/// <div rustbindgen opaque></div>
+struct Texture;
+typedef struct Texture Texture;
+
 #endif // TYPES

@@ -11,6 +11,7 @@
 #include "index_buffer.h"
 #include "renderer.h"
 #include "scene.h"
+#include "texture.h"
 #include "vertex_buffer.h"
 #include "view.h"
 

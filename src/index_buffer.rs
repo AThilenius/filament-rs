@@ -71,4 +71,15 @@ impl IndexBuffer {
       );
     }
   }
+
+  pub fn set_buffer_copy<T: Sized>(&mut self, data: &[T]) {
+    unsafe {
+      filament::IndexBuffer_SetBufferCopy(
+        self.handle,
+        self.engine.handle(),
+        data.as_ptr() as *mut std::ffi::c_void,
+        (std::mem::size_of::<T>() * data.len()) as u64,
+      );
+    }
+  }
 }

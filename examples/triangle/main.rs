@@ -12,30 +12,59 @@ use winit::{Event, WindowEvent};
 mod window_helpers;
 use window_helpers::init_window;
 
-const MATERIAL_BYTES: &'static [u8] = include_bytes!("../materials/bin/color_unlit.filamat");
+const MATERIAL_BYTES: &'static [u8] = include_bytes!("../materials/bin/texture_unlit.filamat");
+
+#[repr(C)]
+#[derive(Clone, Default)]
+struct RgbColor {
+  pub r: u8,
+  pub g: u8,
+  pub b: u8,
+}
 
 #[repr(C)]
 struct Vertex {
   pub position: Vector2<f32>,
-  pub color: u32,
+  pub uv: Vector2<f32>,
+}
+
+impl VertexDefinition for Vertex {
+  fn attribute_definitions() -> Vec<VertexAttributeDefinition> {
+    vec![
+      VertexAttributeDefinition::new(VertexAttribute::Position, AttributeType::Float2, false),
+      VertexAttributeDefinition::new(VertexAttribute::UV0, AttributeType::Float2, false),
+    ]
+  }
 }
 
 fn main() {
   let vertices = vec![
     Vertex {
       position: Vector2::new(1.0, 0.0),
-      color: 0xffff0000,
+      uv: Vector2::new(1.0, 0.0),
     },
     Vertex {
-      position: Vector2::new(-0.5, 0.866),
-      color: 0xff00ff00,
+      position: Vector2::new(0.5, 1.0),
+      uv: Vector2::new(0.0, 1.0),
     },
     Vertex {
-      position: Vector2::new(-0.5, -0.866),
-      color: 0xff0000ff,
+      position: Vector2::new(-0.5, 0.0),
+      uv: Vector2::new(0.0, 0.0),
     },
   ];
   let indices: Vec<u16> = vec![0, 1, 2];
+
+  // Generate some simple data for a 256x256 RGB texture.
+  let mut texture_data = vec![RgbColor::default(); 256 * 256];
+  for y in 0..256 {
+    for x in 0..256 {
+      texture_data[y * 256 + x] = RgbColor {
+        r: x as u8,
+        g: y as u8,
+        b: 0,
+      };
+    }
+  }
 
   let (window, mut event_loop, window_handle) = init_window();
   let hidpi = window.get_hidpi_factor();
@@ -59,25 +88,23 @@ fn main() {
   view.set_clear_color(0.0, 0.0, 1.0, 1.0);
   view.set_clear_targets(true, true, false);
 
-  let mut vertex_buffer = engine
-    .create_vertex_buffer_builder()
-    .vertex_count(3)
-    .buffer_count(1)
-    .attribute(VertexAttribute::Position, 0, AttributeType::Float2, 0, 12)
-    .attribute(VertexAttribute::Color, 0, AttributeType::Ubyte4, 8, 12)
-    .normalized(VertexAttribute::Color, true)
-    .build();
-  vertex_buffer.set_buffer_at(0, &vertices);
+  // Use the vertex definition to build out a vertex and index buffer from striped data.
+  let (vertex_buffer, index_buffer) = Vertex::make(&mut engine, vertices, indices);
 
-  let mut index_buffer = engine
-    .create_index_buffer_builder()
-    .index_count(3)
-    .buffer_type(IndexType::Ushort)
-    .build();
-  index_buffer.set_buffer(&indices);
+  // Make the sampler and texture from the simple texture data above.
+  let sampler = TextureSampler::default();
+  let mut texture = Texture::new_standard(&engine, 256, 256, TextureFormat::RGB8);
+  texture.set_image_copy(
+    &texture_data,
+    256,
+    256,
+    PixelDataType::Ubyte,
+    PixelDataFormat::RGB,
+  );
 
   let material = engine.create_material(MATERIAL_BYTES);
-  let material_instance = material.create_instance();
+  let mut material_instance = material.create_instance();
+  material_instance.set_parameter(MaterialParameter::Texture("texture", &texture, sampler));
 
   let entity = EntityManager::get().create();
   scene.add_entity(entity);

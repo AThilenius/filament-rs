@@ -144,4 +144,16 @@ impl VertexBuffer {
       );
     }
   }
+
+  pub fn set_buffer_at_copy<T: Sized>(&mut self, buffer_index: u8, data: &[T]) {
+    unsafe {
+      filament::VertexBuffer_SetBufferAtCopy(
+        self.handle,
+        self.engine.handle(),
+        buffer_index,
+        data.as_ptr() as *mut std::ffi::c_void,
+        (std::mem::size_of::<T>() * data.len()) as u64,
+      );
+    }
+  }
 }

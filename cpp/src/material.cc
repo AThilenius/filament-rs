@@ -11,3 +11,11 @@ extern "C" Material* Material_Create(Engine* engine, void* data, uint64_t len) {
 extern "C" MaterialInstance* Material_CreateInstance(Material* material) {
   return material->createInstance();
 }
+
+extern "C" void MaterialInstance_SetParameterTexture(MaterialInstance* instance,
+                                                     const char* name,
+                                                     Texture* texture,
+                                                     uint32_t sampler_u) {
+  TextureSampler& sampler = reinterpret_cast<TextureSampler&>(sampler_u);
+  instance->setParameter(name, texture, sampler);
+}

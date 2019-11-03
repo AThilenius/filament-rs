@@ -10,6 +10,10 @@ using namespace filament;
 using namespace filament::math;
 using namespace backend;
 
+namespace {
+void free_buffer(void* buffer, size_t _size, void* _user) { free(buffer); }
+} // namespace
+
 extern "C" VertexBuffer::Builder* VertexBuffer_CreateBuilder() {
   return new VertexBuffer::Builder();
 }
@@ -56,6 +60,16 @@ extern "C" void VertexBuffer_SetBufferAt(VertexBuffer* vertexBuffer,
                                          Engine* engine, uint8_t bufferIndex,
                                          void* buffer, uint64_t size) {
   BufferDescriptor desc(buffer, size);
+  vertexBuffer->setBufferAt(*engine, bufferIndex, std::move(desc));
+}
+
+extern "C" void VertexBuffer_SetBufferAtCopy(VertexBuffer* vertexBuffer,
+                                             Engine* engine,
+                                             uint8_t bufferIndex, void* buffer,
+                                             uint64_t size) {
+  void* buffer_duplicate = malloc(size);
+  memcpy(buffer_duplicate, buffer, size);
+  BufferDescriptor desc(buffer_duplicate, size, &free_buffer);
   vertexBuffer->setBufferAt(*engine, bufferIndex, std::move(desc));
 }
 

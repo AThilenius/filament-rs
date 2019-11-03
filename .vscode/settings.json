@@ -1,6 +1,15 @@
 {
   "cSpell.words": [
+    "ASTC",
+    "Cubemap",
+    "GLES",
+    "MIPMAP",
+    "Mipmaps",
     "Prepass",
+    "SNORM",
+    "SRGB",
+    "SRGBA",
+    "Sampleable",
     "Ubyte",
     "Ushort",
     "Vulkan",
@@ -8,6 +17,7 @@
     "bluevk",
     "filabridge",
     "filaflat",
+    "filamat",
     "flate",
     "hidpi",
     "hwnd",
