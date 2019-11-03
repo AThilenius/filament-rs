@@ -1,4 +1,4 @@
-use crate::{engine::Engine, misc_types::Entity, raw_bindings::*};
+use crate::low_level::{engine::Engine, misc_types::Entity, raw_bindings::*};
 
 pub struct Scene {
     engine: Engine,

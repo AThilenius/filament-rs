@@ -1,4 +1,4 @@
-use crate::{engine::Engine, raw_bindings::*};
+use crate::low_level::{engine::Engine, raw_bindings::*};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum VertexAttribute {

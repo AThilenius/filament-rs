@@ -1,4 +1,4 @@
-use crate::{misc_types::Entity, raw_bindings::*};
+use crate::low_level::{misc_types::Entity, raw_bindings::*};
 
 pub struct EntityManager {
     pub(crate) handle: *mut filament::EntityManager,

@@ -1,7 +1,8 @@
+//! Example that uses only the filament-rs low level API.
 extern crate filament;
 extern crate winit;
 
-use filament::prelude::*;
+use filament::low_level::prelude::*;
 use nalgebra::{Matrix4, Vector2, Vector3};
 use std::{
     thread::sleep,
@@ -26,15 +27,6 @@ struct RgbColor {
 struct Vertex {
     pub position: Vector2<f32>,
     pub uv: Vector2<f32>,
-}
-
-impl VertexDefinition for Vertex {
-    fn attribute_definitions() -> Vec<VertexAttributeDefinition> {
-        vec![
-            VertexAttributeDefinition::new(VertexAttribute::Position, AttributeType::Float2, false),
-            VertexAttributeDefinition::new(VertexAttribute::UV0, AttributeType::Float2, false),
-        ]
-    }
 }
 
 fn main() {
@@ -88,8 +80,22 @@ fn main() {
     view.set_clear_color(0.0, 0.0, 1.0, 1.0);
     view.set_clear_targets(true, true, false);
 
-    // Use the vertex definition to build out a vertex and index buffer from striped data.
-    let (vertex_buffer, index_buffer) = Vertex::make(&mut engine, vertices, indices);
+    let mut vertex_buffer = engine
+        .create_vertex_buffer_builder()
+        .vertex_count(3)
+        .buffer_count(1)
+        .attribute(VertexAttribute::Position, 0, AttributeType::Float2, 0, 12)
+        .attribute(VertexAttribute::Color, 0, AttributeType::Ubyte4, 8, 12)
+        .normalized(VertexAttribute::Color, true)
+        .build();
+    vertex_buffer.set_buffer_at_copy(0, &vertices);
+
+    let mut index_buffer = engine
+        .create_index_buffer_builder()
+        .index_count(3)
+        .buffer_type(IndexType::Ushort)
+        .build();
+    index_buffer.set_buffer_copy(&indices);
 
     // Make the sampler and texture from the simple texture data above.
     let sampler = TextureSampler::default();

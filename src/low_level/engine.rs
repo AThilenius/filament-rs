@@ -1,4 +1,4 @@
-use crate::{
+use crate::low_level::{
     camera::Camera,
     index_buffer::IndexBufferBuilder,
     material::Material,

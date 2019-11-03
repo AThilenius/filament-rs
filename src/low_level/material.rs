@@ -1,4 +1,6 @@
-use crate::{engine::Engine, raw_bindings::*, texture::Texture, texture_sampler::TextureSampler};
+use crate::low_level::{
+    engine::Engine, raw_bindings::*, texture::Texture, texture_sampler::TextureSampler,
+};
 
 pub enum MaterialParameter<'a> {
     Float(f32),

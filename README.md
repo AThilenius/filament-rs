@@ -3,18 +3,28 @@
 > Partial bindings with no unit tests... use are your own risk. No `crate` is
 > provided for that reason.
 
-Partial Rust bindings for [Google Filament](https://github.com/google/filament).
-These bindings are semi-idiomatic, the API itself conforms very closely with
-that of Filament. All linear-algebra types are marshaled to and from
-[nalgebra](https://www.nalgebra.org/) types. No windowing code is included, the
-`examples` use [winit](https://docs.rs/winit/0.20.0-alpha3/winit/) to create a
-window, pump events, and most importantly get a native surface handle to pass to
-Filament (see `/examples/init_and_shutdown.rs` for a minimal windowing and init
-example).
+Rust bindings for [Google Filament](https://github.com/google/filament).
+Filament-rs is split between a (partially complete) low-level API and a (much
+less complete) high-level API
+
+The low-level API is semi-idiomatic and only _mostly_ safe. _(It should be safe
+once the bindings stabilize.)_ The conforms fairly closely with the original
+Filament API, with things like overloading being replaced by enums. All linear
+algebra types are marshaled to and from [nalgebra](https://www.nalgebra.org/)
+types. See the `Usage: Low-level API` section for details on how to use the
+low-level API.
+
+The high-level API is a work in progress. It uses [Legion
+ECS](https://github.com/TomGillen/legion) and
+[Winit](https://docs.rs/winit/0.20.0-alpha3/winit/) for windowing, without
+requiring that the user manually construct things like vertex or index buffers.
+Much of the API is inspired by [Amethyst](https://github.com/amethyst/amethyst).
 
 ## Building
 
-**Only Windows and OSX are currently supported.**
+**Only Windows and OSX are currently supported.** Linux should theoretically be
+easy to add, and WASM should also be theoretically possible (would require more
+work though).
 
 ```sh
 # Filament deps will be auto downloaded and extracted to `/target`.
@@ -25,7 +35,7 @@ Filament deps will be downloaded and extracted inside `target` once per target
 type. These deps are **surprisingly large**, 436MiB tarball and a 2.77GiB
 extracted directory for Windows, at time of writing.
 
-## Usage
+## Usage: Low-level API
 
 **See `examples/triangle` for a complete triangle demo. Use
 `cargo run --example triangle` to run.**
@@ -46,17 +56,6 @@ vertex data.
 struct Vertex {
     pub position: Vector2<f32>,
     pub uv: Vector2<f32>,
-}
-
-// Impl `VertexDefinition` to provide Filament with all the info it needs to build `VertexBuffer`s from Vectors of this
-// struct.
-impl VertexDefinition for Vertex {
-    fn attribute_definitions() -> Vec<VertexAttributeDefinition> {
-        vec![
-            VertexAttributeDefinition::new(VertexAttribute::Position, AttributeType::Float2, false),
-            VertexAttributeDefinition::new(VertexAttribute::UV0, AttributeType::Float2, false),
-        ]
-    }
 }
 ```
 
@@ -82,11 +81,26 @@ view.set_clear_targets(true, true, false);
 ```
 
 Build a Vertex and Index buffer. Note that this will copy both buffers into
-unmanaged memory, freeing the buffer once the copy-to-GPU is done.
+unmanaged memory, freeing the buffer once the copy-to-GPU is done, meaning the
+Rust-side buffers can be freed at any time after these calls.
 
 ```rust
-// Uses the interleaved vertex struct defined above.
-let (vertex_buffer, index_buffer) = Vertex::make(&mut engine, vertices, indices);
+let mut vertex_buffer = engine
+    .create_vertex_buffer_builder()
+    .vertex_count(3)
+    .buffer_count(1)
+    .attribute(VertexAttribute::Position, 0, AttributeType::Float2, 0, 12)
+    .attribute(VertexAttribute::Color, 0, AttributeType::Ubyte4, 8, 12)
+    .normalized(VertexAttribute::Color, true)
+    .build();
+vertex_buffer.set_buffer_at_copy(0, &vertices);
+
+let mut index_buffer = engine
+    .create_index_buffer_builder()
+    .index_count(3)
+    .buffer_type(IndexType::Ushort)
+    .build();
+index_buffer.set_buffer_copy(&indices);
 ```
 
 Create a `Material` and `MaterialInstance` from the embedded bytes above.

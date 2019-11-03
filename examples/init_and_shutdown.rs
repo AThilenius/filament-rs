@@ -5,7 +5,7 @@
 extern crate filament;
 extern crate winit;
 
-use filament::prelude::*;
+use filament::low_level::prelude::*;
 use winit::{Event, EventsLoop, Window, WindowBuilder, WindowEvent};
 
 #[cfg(target_os = "macos")]

@@ -1,17 +1,7 @@
-pub mod prelude;
-pub mod raw_bindings;
+pub mod low_level;
 
-mod camera;
-mod engine;
-mod entity_manager;
-mod index_buffer;
-mod material;
-mod mesh;
-mod misc_types;
-mod renderable_manager;
-mod renderer;
-mod scene;
-mod texture;
-mod texture_sampler;
-mod vertex_buffer;
-mod view;
+#[cfg(feature = "high-level")]
+pub mod high_level;
+
+#[cfg(feature = "high-level")]
+pub use high_level::*;
