@@ -1,0 +1,20 @@
+# TODO: Switch to workspaces
+[package]
+name = "filament_low_level"
+version = "0.2.0"
+authors = ["Alec Thilenius <alec@thilenius.com>"]
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+nalgebra = "0.18"
+
+[dev-dependencies]
+winit = "0.19"
+
+[build-dependencies]
+bindgen = "0.51"
+cc = "1.0"
+curl = "0.4"
+flate2 = "1.0"
+tar = "0.4"

@@ -1,0 +1,16 @@
+[package]
+name = "filament_high_level"
+version = "0.2.0"
+authors = ["Alec Thilenius <alec@thilenius.com>"]
+edition = "2018"
+
+[dependencies]
+filament_low_level = { path = "../filament_low_level" }
+lazy_static = "1.4"
+legion = { git = "https://github.com/jaynus/legion.git", branch = "systems" }
+legion_transform = { git = "https://github.com/AThilenius/legion_transform.git" }
+nalgebra = "0.18"
+shrev = "1.1"
+shrinkwraprs = "0.2"
+smallvec = "1.0"
+winit = "0.19"
