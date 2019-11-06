@@ -80,9 +80,9 @@ view.set_clear_color(0.0, 0.0, 1.0, 1.0);
 view.set_clear_targets(true, true, false);
 ```
 
-Build a Vertex and Index buffer. Note that this will copy both buffers into
-unmanaged memory, freeing the buffer once the copy-to-GPU is done, meaning the
-Rust-side buffers can be freed at any time after these calls.
+Build a Vertex and Index buffer. Note that the above vectors will be 'moved'
+into unmanaged memory (without copying) and freed once the data has been copied
+to the GPU.
 
 ```rust
 let mut vertex_buffer = engine
@@ -93,14 +93,14 @@ let mut vertex_buffer = engine
     .attribute(VertexAttribute::Color, 0, AttributeType::Ubyte4, 8, 12)
     .normalized(VertexAttribute::Color, true)
     .build();
-vertex_buffer.set_buffer_at_copy(0, &vertices);
+vertex_buffer.set_buffer_at(0, vertices);
 
 let mut index_buffer = engine
     .create_index_buffer_builder()
     .index_count(3)
     .buffer_type(IndexType::Ushort)
     .build();
-index_buffer.set_buffer_copy(&indices);
+index_buffer.set_buffer(indices);
 ```
 
 Create a `Material` and `MaterialInstance` from the embedded bytes above.

@@ -19,9 +19,8 @@ IndexBuffer* IndexBuffer_BuilderBuild(IndexBufferBuilder* builder,
 uint64_t IndexBuffer_GetIndexCount(IndexBuffer* indexBuffer);
 
 void IndexBuffer_SetBuffer(IndexBuffer* indexBuffer, Engine* engine,
-                           void* buffer, uint64_t size);
-
-void IndexBuffer_SetBufferCopy(IndexBuffer* indexBuffer, Engine* engine,
-                               void* buffer, uint64_t size);
+                           void* buffer, uint64_t size,
+                           void (*callback)(void* buffer, uint64_t size,
+                                            void* user));
 
 #endif

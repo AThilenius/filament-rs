@@ -10,6 +10,7 @@
     "SRGB",
     "SRGBA",
     "Sampleable",
+    "Schedulable",
     "Ubyte",
     "Ushort",
     "Vulkan",
@@ -26,6 +27,8 @@
     "opengl",
     "repr",
     "rustc",
+    "shrev",
+    "smallvec",
     "smol",
     "unmanaged",
     "winit"

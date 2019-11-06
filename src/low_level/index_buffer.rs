@@ -1,4 +1,5 @@
 use crate::low_level::{engine::Engine, raw_bindings::*};
+use std::mem;
 
 pub enum IndexType {
     Ushort = 0,
@@ -62,25 +63,17 @@ impl IndexBuffer {
         unsafe { filament::IndexBuffer_GetIndexCount(self.handle) }
     }
 
-    pub fn set_buffer<T: Sized>(&mut self, data: &[T]) {
+    pub fn set_buffer<T: Sized>(&mut self, data: Vec<T>) {
         unsafe {
             filament::IndexBuffer_SetBuffer(
                 self.handle,
                 self.engine.handle(),
                 data.as_ptr() as *mut std::ffi::c_void,
                 (std::mem::size_of::<T>() * data.len()) as u64,
+                Some(crate::low_level::deallocate_rust_buffer),
             );
         }
-    }
-
-    pub fn set_buffer_copy<T: Sized>(&mut self, data: &[T]) {
-        unsafe {
-            filament::IndexBuffer_SetBufferCopy(
-                self.handle,
-                self.engine.handle(),
-                data.as_ptr() as *mut std::ffi::c_void,
-                (std::mem::size_of::<T>() * data.len()) as u64,
-            );
-        }
+        // Forget the vector (will be freed in the deallocate_rust_buffer callback).
+        mem::forget(data);
     }
 }

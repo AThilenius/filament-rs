@@ -41,17 +41,9 @@ extern "C" uint64_t IndexBuffer_GetIndexCount(IndexBuffer* indexBuffer) {
   return indexBuffer->getIndexCount();
 }
 
-extern "C" void IndexBuffer_SetBuffer(IndexBuffer* indexBuffer, Engine* engine,
-                                      void* buffer, uint64_t size) {
-  BufferDescriptor desc(buffer, size);
-  indexBuffer->setBuffer(*engine, std::move(desc));
-}
-
-extern "C" void IndexBuffer_SetBufferCopy(IndexBuffer* indexBuffer,
-                                          Engine* engine, void* buffer,
-                                          uint64_t size) {
-  void* buffer_duplicate = malloc(size);
-  memcpy(buffer_duplicate, buffer, size);
-  BufferDescriptor desc(buffer_duplicate, size, &free_buffer);
+extern "C" void IndexBuffer_SetBuffer(
+    IndexBuffer* indexBuffer, Engine* engine, void* buffer, uint64_t size,
+    void (*callback)(void* buffer, uint64_t size, void* user)) {
+  BufferDescriptor desc(buffer, size, (void (*)(void*, size_t, void*))callback);
   indexBuffer->setBuffer(*engine, std::move(desc));
 }

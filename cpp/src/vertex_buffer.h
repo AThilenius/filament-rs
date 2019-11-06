@@ -1,6 +1,8 @@
 #ifndef VERTEX_BUFFER
 #define VERTEX_BUFFER
 
+#include <stddef.h>
+
 #include "opaque_types.h"
 
 VertexBufferBuilder* VertexBuffer_CreateBuilder();
@@ -27,7 +29,9 @@ VertexBuffer* VertexBuffer_BuilderBuild(VertexBufferBuilder* builder,
 uint64_t VertexBuffer_GetVertexCount(VertexBuffer* vertexBuffer);
 
 void VertexBuffer_SetBufferAt(VertexBuffer* vertexBuffer, Engine* engine,
-                              uint8_t bufferIndex, void* buffer, uint64_t size);
+                              uint8_t bufferIndex, void* buffer, uint64_t size,
+                              void (*callback)(void* buffer, uint64_t size,
+                                               void* user));
 
 void VertexBuffer_SetBufferAtCopy(VertexBuffer* vertexBuffer, Engine* engine,
                                   uint8_t bufferIndex, void* buffer,

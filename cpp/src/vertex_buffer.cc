@@ -56,10 +56,11 @@ extern "C" uint64_t VertexBuffer_GetVertexCount(VertexBuffer* vertexBuffer) {
   return vertexBuffer->getVertexCount();
 }
 
-extern "C" void VertexBuffer_SetBufferAt(VertexBuffer* vertexBuffer,
-                                         Engine* engine, uint8_t bufferIndex,
-                                         void* buffer, uint64_t size) {
-  BufferDescriptor desc(buffer, size);
+extern "C" void VertexBuffer_SetBufferAt(
+    VertexBuffer* vertexBuffer, Engine* engine, uint8_t bufferIndex,
+    void* buffer, uint64_t size,
+    void (*callback)(void* buffer, uint64_t size, void* user)) {
+  BufferDescriptor desc(buffer, size, (void (*)(void*, size_t, void*))callback);
   vertexBuffer->setBufferAt(*engine, bufferIndex, std::move(desc));
 }
 

@@ -84,18 +84,20 @@ fn main() {
         .create_vertex_buffer_builder()
         .vertex_count(3)
         .buffer_count(1)
-        .attribute(VertexAttribute::Position, 0, AttributeType::Float2, 0, 12)
-        .attribute(VertexAttribute::Color, 0, AttributeType::Ubyte4, 8, 12)
-        .normalized(VertexAttribute::Color, true)
+        .attribute(VertexAttribute::Position, 0, AttributeType::Float2, 0, 16)
+        .attribute(VertexAttribute::UV0, 0, AttributeType::Float2, 8, 16)
         .build();
-    vertex_buffer.set_buffer_at_copy(0, &vertices);
+    // Note that this 'moves' the vector. Memory will be freed once the vector is fully copied to
+    // the CPU. No CPU copying takes place.
+    vertex_buffer.set_buffer_at(0, vertices);
 
     let mut index_buffer = engine
         .create_index_buffer_builder()
         .index_count(3)
         .buffer_type(IndexType::Ushort)
         .build();
-    index_buffer.set_buffer_copy(&indices);
+    // Same as `vertex_buffer.set_buffer_at(0, vertices)`, the buffer will be 'moved'.
+    index_buffer.set_buffer(indices);
 
     // Make the sampler and texture from the simple texture data above.
     let sampler = TextureSampler::default();

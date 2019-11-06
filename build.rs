@@ -146,6 +146,7 @@ fn cc_build(build_path: PathBuf, source: Vec<&str>) {
         .cpp(true)
         .flag("-std=c++14")
         .static_flag(true)
+        .warnings(false)
         .compile("legion_filament_cpp");
 }
 
@@ -156,6 +157,7 @@ fn cc_build(build_path: PathBuf, source: Vec<&str>) {
         .include(build_path.join("include").to_str().unwrap())
         .cpp(true)
         .static_crt(true)
+        .warnings(false)
         .compile("legion_filament_cpp");
 }
 

@@ -1,4 +1,5 @@
 use crate::low_level::{engine::Engine, raw_bindings::*};
+use std::mem;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum VertexAttribute {
@@ -134,7 +135,7 @@ impl VertexBuffer {
         unsafe { filament::VertexBuffer_GetVertexCount(self.handle) }
     }
 
-    pub fn set_buffer_at<T: Sized>(&mut self, buffer_index: u8, data: &[T]) {
+    pub fn set_buffer_at<T: Sized>(&mut self, buffer_index: u8, data: Vec<T>) {
         unsafe {
             filament::VertexBuffer_SetBufferAt(
                 self.handle,
@@ -142,19 +143,10 @@ impl VertexBuffer {
                 buffer_index,
                 data.as_ptr() as *mut std::ffi::c_void,
                 (std::mem::size_of::<T>() * data.len()) as u64,
+                Some(crate::low_level::deallocate_rust_buffer),
             );
-        }
-    }
-
-    pub fn set_buffer_at_copy<T: Sized>(&mut self, buffer_index: u8, data: &[T]) {
-        unsafe {
-            filament::VertexBuffer_SetBufferAtCopy(
-                self.handle,
-                self.engine.handle(),
-                buffer_index,
-                data.as_ptr() as *mut std::ffi::c_void,
-                (std::mem::size_of::<T>() * data.len()) as u64,
-            );
+            // Forget the vector (will be freed in the deallocate_rust_buffer callback).
+            mem::forget(data);
         }
     }
 }
