@@ -1,3 +1,4 @@
+# TODO: Switch to workspaces
 [package]
 name = "filament"
 version = "0.1.0"
@@ -6,10 +7,13 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-nalgebra = "0.18"
+lazy_static = { optional = true, version = "1.4" }
 legion = { optional = true, git = "https://github.com/jaynus/legion.git", branch = "systems" }
 legion_transform = { optional = true, git = "https://github.com/AThilenius/legion_transform.git" }
+nalgebra = "0.18"
 shrev = { optional = true, version = "1.1" }
+shrinkwraprs = { optional = true, version = "0.2" }
+smallvec = { optional = true, version = "1.0" }
 winit = { optional = true, version = "0.19" }
 
 [dev-dependencies]
@@ -24,4 +28,11 @@ tar = "0.4"
 
 [features]
 default = ["high-level"]
-high-level = ["legion", "legion_transform", "shrev", "winit"]
+high-level = [
+  "legion",
+  "legion_transform",
+  "shrev",
+  "shrinkwraprs",
+  "smallvec",
+  "winit"
+]

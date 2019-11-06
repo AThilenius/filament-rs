@@ -13,10 +13,10 @@ use nalgebra::{Vector3, Vector4};
 // Position { offset: 0, stride: sizeof(Vertex) = 6 }
 // Color    { offset: 3, stride: sizeof(Vertex) = 6 }
 pub struct VertexAttributeDefinition {
-    pub(self) attribute: VertexAttribute,
-    pub(self) attribute_type: AttributeType,
-    pub(self) attribute_size: u32,
-    pub(self) normalized: bool,
+    pub(crate) attribute: VertexAttribute,
+    pub(crate) attribute_type: AttributeType,
+    pub(crate) attribute_size: u32,
+    pub(crate) normalized: bool,
 }
 
 impl VertexAttributeDefinition {
@@ -61,7 +61,7 @@ impl VertexAttributeDefinition {
     }
 }
 
-pub trait VertexDefinition {
+pub trait VertexDefinition: Sized + Send + Sync {
     fn attribute_definitions() -> Vec<VertexAttributeDefinition>;
 
     fn make(
@@ -99,7 +99,7 @@ pub trait VertexDefinition {
 
         let mut vertex_buffer = vertex_builder.build();
 
-        vertex_buffer.set_buffer_at_copy(0, &vertices);
+        vertex_buffer.set_buffer_at(0, vertices);
 
         let mut index_buffer = engine
             .create_index_buffer_builder()
@@ -107,7 +107,7 @@ pub trait VertexDefinition {
             .buffer_type(IndexType::Ushort)
             .build();
 
-        index_buffer.set_buffer_copy(&indices);
+        index_buffer.set_buffer(indices);
 
         (vertex_buffer, index_buffer)
     }
