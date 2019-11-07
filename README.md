@@ -18,27 +18,39 @@ The high-level API is a work in progress. It uses [Legion
 ECS](https://github.com/TomGillen/legion) and
 [Winit](https://docs.rs/winit/0.20.0-alpha3/winit/) for windowing, without
 requiring that the user manually construct things like vertex or index buffers.
-Much of the API is inspired by [Amethyst](https://github.com/amethyst/amethyst).
 
-## Building
+## Building (Windows and OSX only)
 
-**Only Windows and OSX are currently supported.** Linux should theoretically be
-easy to add, and WASM should also be theoretically possible (would require more
-work though).
+Filament deps will be downloaded and extracted inside `target` once per target
+type. **WARNING: On Windows, these deps are **surprisingly large**, 436MiB
+tarball and a 2.77GiB extracted directory, at time of writing.** Only bourne
+shells are supported (use something like [git-bash](https://gitforwindows.org/)
+on Windows).
 
 ```sh
 # Filament deps will be auto downloaded and extracted to `/target`.
 cargo build
 ```
 
-Filament deps will be downloaded and extracted inside `target` once per target
-type. These deps are **surprisingly large**, 436MiB tarball and a 2.77GiB
-extracted directory for Windows, at time of writing.
+Then compile the included material source code. The output of this compilation
+is not added to source control as it is dependant on the exact version of
+Filament that is used.
+
+```sh
+./build_materials.sh
+```
+
+## Materials
+
+Materials in Filament are pre-compiled with `matc`. See the helper script
+`build_materials.sh`, which will search for `matc` in `target` for you. The
+Filament material definition is very well documented
+(here)[https://google.github.io/filament/Materials.html#compilingmaterials].
 
 ## Usage: Low-level API
 
-**See `examples/triangle` for a complete triangle demo. Use
-`cargo run --example triangle` to run.**
+**See `filament_low_level/examples/triangle_low_level` for a complete triangle
+demo. Use `cargo run --example triangle_low_level` to run.**
 
 Include a compiled Filament `Material` in the binary
 

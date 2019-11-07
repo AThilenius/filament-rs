@@ -1,6 +1,7 @@
 /bin
 /cpp/lib
 /cpp/include
+/materials/bin
 *.tgz
 book/book
 target

@@ -13,7 +13,8 @@ use winit::{Event, WindowEvent};
 mod window_helpers;
 use window_helpers::init_window;
 
-const MATERIAL_BYTES: &'static [u8] = include_bytes!("../materials/bin/texture_unlit.filamat");
+const MATERIAL_BYTES: &'static [u8] =
+    include_bytes!("../../../materials/bin/texture_unlit.filamat");
 
 #[repr(C)]
 #[derive(Clone, Default)]

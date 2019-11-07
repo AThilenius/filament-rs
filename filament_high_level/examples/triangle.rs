@@ -1,10 +1,11 @@
 extern crate filament_high_level;
+
 use filament_high_level::prelude::*;
 use nalgebra::Vector2;
 use std::collections::HashMap;
 use std::time::Instant;
 
-const MATERIAL_BYTES: &'static [u8] = include_bytes!("./materials/bin/texture_unlit.filamat");
+const MATERIAL_BYTES: &'static [u8] = include_bytes!("../../materials/bin/texture_unlit.filamat");
 
 #[repr(C)]
 #[derive(Clone, Default)]
