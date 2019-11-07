@@ -82,18 +82,17 @@ extern "C" uint32_t Texture_GetInternalFormat(Texture* texture) {
 }
 
 extern "C" void
-Texture_SetImageCopy(Texture* texture, Engine* engine, void* buffer,
-                     uint64_t sizeInBytes, uint32_t level, uint32_t xoffset,
-                     uint32_t yoffset, uint32_t width, uint32_t height,
-                     uint32_t left, uint32_t bottom, uint32_t type,
-                     uint32_t alignment, uint32_t stride, uint32_t format) {
-  void* buffer_duplicate = malloc(sizeInBytes);
-  memcpy(buffer_duplicate, buffer, sizeInBytes);
+Texture_SetImage(Texture* texture, Engine* engine, void* buffer,
+                 uint64_t sizeInBytes, uint32_t level, uint32_t xoffset,
+                 uint32_t yoffset, uint32_t width, uint32_t height,
+                 uint32_t left, uint32_t bottom, uint32_t type,
+                 uint32_t alignment, uint32_t stride, uint32_t format,
+                 void (*callback)(void* buffer, uint64_t size, void* user)) {
 
   Texture::PixelBufferDescriptor desc(
-      buffer_duplicate, sizeInBytes, (backend::PixelDataFormat)format,
+      buffer, sizeInBytes, (backend::PixelDataFormat)format,
       (backend::PixelDataType)type, (uint8_t)alignment, left, bottom, stride,
-      &free_buffer, nullptr);
+      (void (*)(void*, size_t, void*))callback);
 
   texture->setImage(*engine, (size_t)level, xoffset, yoffset, width, height,
                     std::move(desc));

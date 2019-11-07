@@ -1,6 +1,6 @@
 use crate::raw_bindings::*;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum SamplerWrapMode {
     ClampToEdge,
@@ -8,7 +8,7 @@ pub enum SamplerWrapMode {
     MirroredRepeat,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum SamplerMinFilter {
     // don't change the enums values
@@ -20,7 +20,7 @@ pub enum SamplerMinFilter {
     LinearMipmapLinear = 5,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum SamplerMagFilter {
     // don't change the enums values
@@ -28,7 +28,7 @@ pub enum SamplerMagFilter {
     Linear = 1,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum SamplerCompareMode {
     // don't change the enums values
@@ -36,7 +36,7 @@ pub enum SamplerCompareMode {
     CompareToTexture = 1,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum SamplerCompareFunc {
     // don't change the enums values
@@ -50,6 +50,7 @@ pub enum SamplerCompareFunc {
     N,
 }
 
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct TextureSampler(pub u32);
 
 impl Default for TextureSampler {

@@ -1,5 +1,4 @@
 use crate::{engine::Engine, raw_bindings::*};
-use std::mem;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum VertexAttribute {
@@ -146,7 +145,7 @@ impl VertexBuffer {
                 Some(crate::deallocate_rust_buffer),
             );
             // Forget the vector (will be freed in the deallocate_rust_buffer callback).
-            mem::forget(data);
+            std::mem::forget(data);
         }
     }
 }

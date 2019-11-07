@@ -33,8 +33,4 @@ void VertexBuffer_SetBufferAt(VertexBuffer* vertexBuffer, Engine* engine,
                               void (*callback)(void* buffer, uint64_t size,
                                                void* user));
 
-void VertexBuffer_SetBufferAtCopy(VertexBuffer* vertexBuffer, Engine* engine,
-                                  uint8_t bufferIndex, void* buffer,
-                                  uint64_t size);
-
 #endif

@@ -102,8 +102,8 @@ fn main() {
     // Make the sampler and texture from the simple texture data above.
     let sampler = TextureSampler::default();
     let mut texture = Texture::new_standard(&engine, 256, 256, TextureFormat::RGB8);
-    texture.set_image_copy(
-        &texture_data,
+    texture.set_image(
+        texture_data,
         256,
         256,
         PixelDataType::Ubyte,
@@ -112,7 +112,7 @@ fn main() {
 
     let material = engine.create_material(MATERIAL_BYTES);
     let mut material_instance = material.create_instance();
-    material_instance.set_parameter(MaterialParameter::Texture("texture", &texture, sampler));
+    material_instance.set_parameter("texture", MaterialParameterBind::Texture(&texture, sampler));
 
     let entity = EntityManager::get().create();
     scene.add_entity(entity);

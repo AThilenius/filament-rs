@@ -26,12 +26,13 @@ uint32_t Texture_GetTarget(Texture* texture);
 
 uint32_t Texture_GetInternalFormat(Texture* texture);
 
-void Texture_SetImageCopy(Texture* texture, Engine* engine, void* buffer,
-                          uint64_t sizeInBytes, uint32_t level,
-                          uint32_t xoffset, uint32_t yoffset, uint32_t width,
-                          uint32_t height, uint32_t left, uint32_t bottom,
-                          uint32_t type, uint32_t alignment, uint32_t stride,
-                          uint32_t format);
+void Texture_SetImage(Texture* texture, Engine* engine, void* buffer,
+                      uint64_t sizeInBytes, uint32_t level, uint32_t xoffset,
+                      uint32_t yoffset, uint32_t width, uint32_t height,
+                      uint32_t left, uint32_t bottom, uint32_t type,
+                      uint32_t alignment, uint32_t stride, uint32_t format,
+                      void (*callback)(void* buffer, uint64_t size,
+                                       void* user));
 
 void Texture_GenerateMipmaps(Texture* texture, Engine* engine);
 

@@ -1,4 +1,4 @@
-use crate::mesh::{VertexAttributeDefinition, VertexDefinition};
+use crate::components::mesh::{VertexAttributeDefinition, VertexDefinition};
 
 pub struct MeshBytesLoadRequest {
     pub(crate) size_of_t: usize,

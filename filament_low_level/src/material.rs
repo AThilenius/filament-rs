@@ -1,8 +1,8 @@
 use crate::{engine::Engine, raw_bindings::*, texture::Texture, texture_sampler::TextureSampler};
 
-pub enum MaterialParameter<'a> {
+pub enum MaterialParameterBind<'a> {
     Float(f32),
-    Texture(&'a str, &'a Texture, TextureSampler),
+    Texture(&'a Texture, TextureSampler),
 }
 
 pub struct Material {
@@ -38,9 +38,9 @@ impl MaterialInstance {
         }
     }
 
-    pub fn set_parameter(&mut self, parameter: MaterialParameter) {
-        match parameter {
-            MaterialParameter::Texture(name, texture, sampler) => unsafe {
+    pub fn set_parameter(&mut self, name: &str, parameter_bind: MaterialParameterBind) {
+        match parameter_bind {
+            MaterialParameterBind::Texture(texture, sampler) => unsafe {
                 let name_ptr = std::ffi::CString::new(name).expect("Names must be ASCII only.");
                 filament::MaterialInstance_SetParameterTexture(
                     self.handle,

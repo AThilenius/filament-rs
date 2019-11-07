@@ -11,6 +11,7 @@
     "SRGBA",
     "Sampleable",
     "Schedulable",
+    "Shrinkwrap",
     "Ubyte",
     "Ushort",
     "Vulkan",
@@ -25,13 +26,16 @@
     "macos",
     "nsview",
     "opengl",
+    "renderables",
     "repr",
     "rustc",
     "shrev",
     "smallvec",
     "smol",
     "unmanaged",
-    "winit"
+    "winit",
+    "zfar",
+    "znear"
   ],
   "files.associations": {
     "functional": "cpp",

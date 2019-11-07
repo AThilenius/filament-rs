@@ -250,45 +250,20 @@ impl Texture {
         unsafe { filament::Texture_GetLevels(self.handle) }
     }
 
-    pub fn set_image_copy<T: Sized>(
+    pub fn set_image<T: Sized>(
         &mut self,
-        data: &[T],
+        data: Vec<T>,
         width: u32,
         height: u32,
         data_type: PixelDataType,
         format: PixelDataFormat,
     ) {
-        unsafe {
-            filament::Texture_SetImageCopy(
-                self.handle,
-                self.engine.handle(),
-                data.as_ptr() as *mut std::ffi::c_void,
-                (std::mem::size_of::<T>() * data.len()) as u64,
-                // Level
-                0,
-                // X Offset
-                0,
-                // Y Offset
-                0,
-                width,
-                height,
-                // Left
-                0,
-                // Bottom
-                0,
-                data_type as u32,
-                // Alignment
-                1,
-                // Stride
-                0,
-                format as u32,
-            );
-        }
+        self.set_sub_image(data, 0, 0, 0, width, height, 0, 0, data_type, 1, 0, format);
     }
 
-    pub fn set_sub_image_copy<T: Sized>(
+    pub fn set_sub_image<T: Sized>(
         &mut self,
-        data: &[T],
+        data: Vec<T>,
         level: u32,
         x_offset: u32,
         y_offset: u32,
@@ -302,7 +277,7 @@ impl Texture {
         format: PixelDataFormat,
     ) {
         unsafe {
-            filament::Texture_SetImageCopy(
+            filament::Texture_SetImage(
                 self.handle,
                 self.engine.handle(),
                 data.as_ptr() as *mut std::ffi::c_void,
@@ -318,8 +293,11 @@ impl Texture {
                 alignment,
                 stride,
                 format as u32,
+                Some(crate::deallocate_rust_buffer),
             );
         }
+        // Forget the vector (will be freed in the deallocate_rust_buffer callback).
+        std::mem::forget(data);
     }
 
     pub fn generate_mip_maps(&self) {

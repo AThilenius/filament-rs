@@ -64,16 +64,6 @@ extern "C" void VertexBuffer_SetBufferAt(
   vertexBuffer->setBufferAt(*engine, bufferIndex, std::move(desc));
 }
 
-extern "C" void VertexBuffer_SetBufferAtCopy(VertexBuffer* vertexBuffer,
-                                             Engine* engine,
-                                             uint8_t bufferIndex, void* buffer,
-                                             uint64_t size) {
-  void* buffer_duplicate = malloc(size);
-  memcpy(buffer_duplicate, buffer, size);
-  BufferDescriptor desc(buffer_duplicate, size, &free_buffer);
-  vertexBuffer->setBufferAt(*engine, bufferIndex, std::move(desc));
-}
-
 // extern "C" void VertexBuffer_PopulateTangentQuaternions(
 //     int32_t quatType, int32_t quatCount, jobject outBuffer, int32_t
 //     outRemaining, int32_t outStride, jobject normals, int32_t

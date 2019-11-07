@@ -9,8 +9,11 @@ filament_low_level = { path = "../filament_low_level" }
 lazy_static = "1.4"
 legion = { git = "https://github.com/jaynus/legion.git", branch = "systems" }
 legion_transform = { git = "https://github.com/AThilenius/legion_transform.git" }
+log = "0.4"
 nalgebra = "0.18"
 shrev = "1.1"
-shrinkwraprs = "0.2"
 smallvec = "1.0"
 winit = "0.19"
+
+[dev-dependencies]
+env_logger = "0.7"
